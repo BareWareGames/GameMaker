@@ -7,8 +7,8 @@ dash_key = keyboard_check_pressed(ord("C"));
 attack_key = keyboard_check_pressed(ord("X"));
 
 //Get axis
-xaxis = (right_key - left_key);
-yaxis = (down_key - up_key);
+//xaxis = (right_key - left_key);
+//yaxis = (down_key - up_key);
 
 // Check for gamepad input
 if(gamepad_is_connected(0)) {

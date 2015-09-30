@@ -34,7 +34,23 @@ hspd = lengthdir_x(len, dir);
 vspd = lengthdir_y(len, dir);
 
 //Move
+// Horizontal collisions
+if(scr_grid_place_meeting(x + hspd, y)) {
+    while(!scr_grid_place_meeting(x + sign(hspd), y)) {
+        x += sign(hspd);
+    }
+    hspd = 0;
+}
 phy_position_x += hspd;
+
+
+// Vertical collisions
+if(scr_grid_place_meeting(x, y + vspd)) {
+    while(!scr_grid_place_meeting(x, y + sign(vspd))) {
+        y += sign(vspd);
+    }
+    vspd = 0;
+}
 phy_position_y += vspd;
 
 //Control sprite
