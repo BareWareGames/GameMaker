@@ -27,8 +27,8 @@
             <kind>1</kind>
             <string>/// Create level
 // Resize
-var set_width = get_integer("What would you like the width to be?", "200");
-var set_height = get_integer("What would you like the width to be?", "200");
+var set_width = 400;//get_integer("What would you like the width to be?", "200");
+var set_height = 400;//get_integer("What would you like the width to be?", "200");
 room_width = (CELL_WIDTH / 16) * set_width;
 room_height = (CELL_HEIGHT / 16) * set_height;
 

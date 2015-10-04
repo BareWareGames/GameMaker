@@ -4,7 +4,14 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\ingame</sound>
+    <sound>sound\snd_slimeStruck</sound>
+    <sound>sound\snd_slimeStrike</sound>
+    <sound>sound\snd_playerStrike</sound>
+    <sound>sound\snd_playerStruck</sound>
+    <sound>sound\snd_playerDash</sound>
+  </sounds>
   <sprites name="sprites">
     <sprite>sprites\spr_wall</sprite>
     <sprites name="Player Sprites">
@@ -33,6 +40,10 @@
       <script>scripts\scr_get_input.gml</script>
       <script>scripts\scr_get_face.gml</script>
       <script>scripts\scr_grid_place_meeting.gml</script>
+      <script>scripts\scr_draw_shadow.gml</script>
+      <script>scripts\scr_update_stats.gml</script>
+      <script>scripts\scr_lifeform_levelup.gml</script>
+      <script>scripts\scr_global_variables.gml</script>
     </scripts>
     <scripts name="Player States">
       <script>scripts\scr_dash_state.gml</script>
@@ -48,7 +59,6 @@
         <script>scripts\scr_enemy_choose_next_state.gml</script>
         <script>scripts\scr_check_for_player.gml</script>
       </scripts>
-      <script>scripts\scr_enemy_stun_state.gml</script>
     </scripts>
     <script>scripts\scr_effect_fireworks.gml</script>
   </scripts>
@@ -62,6 +72,9 @@
     <object>objects\obj_damage</object>
     <object>objects\obj_mailbox</object>
     <object>objects\obj_level</object>
+    <object>objects\obj_tree</object>
+    <object>objects\obj_instance_parent</object>
+    <object>objects\obj_hitcaption</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_2</room>

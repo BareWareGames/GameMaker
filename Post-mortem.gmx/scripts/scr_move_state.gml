@@ -8,6 +8,10 @@ yaxis = (down_key - up_key);
 
 //To dash state
 if(dash_key) {
+    // Player Sound
+    audio_play_sound(dash, 1, 0);
+    //Edit stamina
+    stamina--;
     state = scr_dash_state;
     alarm[0] = room_speed / 6;
 }
@@ -15,6 +19,8 @@ if(dash_key) {
 //To attack state
 if(attack_key) {
     image_index = 0;
+    // Player Sound
+    audio_play_sound(strike, 1, 0);
     state = scr_attack_state;
 }
 

@@ -48,8 +48,10 @@ alarm[0] = 1
           <argument>
             <kind>1</kind>
             <string>///Instance Variables
-damage = 1;
+attack = 1;
+strength = 1;
 knockback = 10;
+critical = 1;
 creator = noone;
 </string>
           </argument>
@@ -99,15 +101,42 @@ instance_destroy();
             <kind>1</kind>
             <string>///Damage all lifeforms
 if(other.id != creator) {
+    var damage = ceil(0.1 * attack * strength * 1);
+    // Check if a critical hit
+    if(irandom(100) &lt;= critical) {
+        damage *= 1 + random(1);
+        damage = round(damage);
+    }
+
+    if(damage &gt; other.hp)
+        damage = other.hp;
+        
     other.hp -= damage;
     
-    // Apply knockback
+    // Play other struck sound
+    audio_play_sound(other.struck, 1, 0);
+    
+    // Check if creator is still alive
+    if(!instance_exists(creator))
+        exit;
+    
+    // Add experience to creator
+    creator.experience += damage;
+    if(other.hp &lt;= 0) 
+        creator.experience += round(other.experience * 0.7)
+       
+    // Apply knockback 
     var dir = point_direction(creator.x, creator.y, other.x, other.y);
     var xforce = lengthdir_x(knockback, dir);
     var yforce = lengthdir_y(knockback, dir);
     var hspd = xforce;
     var vspd = yforce;
     with (other) {
+    
+        // Create hit caption
+        var caption = instance_create(self.x, self.y, obj_hitcaption);
+        caption.hit = damage;
+    
         if(scr_grid_place_meeting(x + hspd, y)) {
             while(!scr_grid_place_meeting(x + sign(hspd), y)) {
                 x += sign(hspd);

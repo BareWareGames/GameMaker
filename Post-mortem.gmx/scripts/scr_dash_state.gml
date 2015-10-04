@@ -6,7 +6,9 @@ xaxis = (right_key - left_key);
 yaxis = (down_key - up_key);
 
 //Set length
-len = spd * 4; // Dash will move 4 times as fast
+if(len == 0)
+    dir = face * 90;
+len = spd * 2; // Dash will move 4 times as fast
 
 //Get hspd and vspd
 hspd = lengthdir_x(len, dir);
@@ -36,3 +38,4 @@ phy_position_y += vspd;
 var dash = instance_create(x, y, obj_dash_effect);
 dash.sprite_index = sprite_index;
 dash.image_index = image_index;
+dash.depth = depth;
