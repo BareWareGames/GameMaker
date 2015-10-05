@@ -161,6 +161,8 @@ if(stamina &gt; maxStamina)
 
 if(experience &gt;= experienceTo) {
     experience -= experienceTo;
+    repeat(5)
+        scr_effect_fireworks();
     scr_lifeform_levelup(id, 1);
 }
 </string>

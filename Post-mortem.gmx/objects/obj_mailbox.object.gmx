@@ -105,7 +105,7 @@ room_restart();
             <string>///Celebration
 event_inherited();
 if(completion) {
-    scr_effect_fireworks();
+    //scr_effect_fireworks();
 }
 </string>
           </argument>
@@ -162,6 +162,8 @@ if(other.id == obj_player.id &amp;&amp; !activated) {
 image_speed = 0;
 image_index = 2;
 alarm[0] = room_speed * 2;
+repeat(5)
+    scr_effect_fireworks();
 completion = true;
 </string>
           </argument>
