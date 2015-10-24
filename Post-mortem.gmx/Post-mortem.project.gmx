@@ -11,6 +11,7 @@
     <sound>sound\snd_playerStrike</sound>
     <sound>sound\snd_playerStruck</sound>
     <sound>sound\snd_playerDash</sound>
+    <sound>sound\snd_xpPop</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\spr_wall</sprite>
@@ -29,6 +30,7 @@
     <sprite>sprites\spr_damage</sprite>
     <sprite>sprites\spr_mailbox</sprite>
     <sprite>sprites\sprite13</sprite>
+    <sprite>sprites\spr_xpOrb</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_grass</background>
@@ -76,6 +78,7 @@
     <object>objects\obj_tree</object>
     <object>objects\obj_instance_parent</object>
     <object>objects\obj_hitcaption</object>
+    <object>objects\obj_xpOrb</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_2</room>

@@ -122,8 +122,16 @@ if(other.id != creator) {
     
     // Add experience to creator
     creator.experience += damage;
-    if(other.hp &lt;= 0) 
-        creator.experience += round(other.experience * 0.7)
+    if(other.hp &lt;= 0) {
+        while(other.experience &gt; 0) {
+            var xp = instance_create(other.x, other.y, obj_xpOrb);
+            var experienceCrate = other.experience / (irandom(2) + 5);
+            xp.experience = experienceCrate;
+            xp.target = creator;
+            other.experience -= experienceCrate * 1.30;
+            
+        }
+    }
        
     // Apply knockback 
     var dir = point_direction(creator.x, creator.y, other.x, other.y);
