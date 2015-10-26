@@ -32,8 +32,6 @@ maxHp = hp;
 
 density = 0.5;
 
-damage = 1;
-
 enabled = false;
 
 spd = 2; // horizontal speed
@@ -48,6 +46,11 @@ sprite = spr_human;
 costume = -1;
 
 target = noone;
+team = "neutral";
+
+intel_distance = -1;
+intel_dir = -1;
+animated = true;
 
 xscale = 1;
 yscale = 1;
@@ -93,6 +96,51 @@ afk = false;
 shop = false;
 trade = false;
 targeted = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Stats
+hp = 5; // health
+maxHp = 99;
+capHp = hp
+
+str = 1; // strength
+maxStr = 99;
+
+att = 1; // attack
+maxAtt = 99;
+
+def = 1; // defense
+maxDef = 99;
+
+agi = 1; // agility
+maxAgi = 99;
+
+gold = 0; // gold
+maxGold = 10000000; // 10,000,000
+
+xp = 0; // experience
+maxXp = 10;
+
+level = 0; // level
+maxLevel = 99;
 </string>
           </argument>
         </arguments>
@@ -170,6 +218,30 @@ physics_fixture_add_point(fix_temp, -3, 0);
 physics_fixture_set_density(fix_temp, density);
 fix_inst = physics_fixture_bind(fix_temp, id);
 physics_fixture_delete(fix_temp);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Destroy
+instance_destroy();
 </string>
           </argument>
         </arguments>
@@ -262,11 +334,37 @@ if (enabled) global.player = id;
         <arguments>
           <argument>
             <kind>1</kind>
+            <string>/// Check if alive if not start removal
+if (!alive &amp;&amp; alarm[11] &lt;= 0) alarm[11] = room_speed * 2;
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
             <string>/// Update controls
 // Get controls
-if (!global.pause) {
+if (!global.pause &amp;&amp; alive &amp;&amp; animated) {
     if (enabled) scr_key_inputs (user);
     else scr_ai_human (id, enabled);
+} else if (!alive) {
+    key_left = false;
+    key_right = false;
+    key_space = false;
 }
 </string>
           </argument>
@@ -550,7 +648,6 @@ physics_apply_impulse(x, y, (hspd - phy_speed_x), vspd);
 if (key_modify) {
     var dmg = instance_create (x - (2 * sign (face - 1)), y - sprite_height/5, obj_damage);
     dmg.creator = id;
-    dmg.damage = damage;
     
     resting = true;
     attacking = true;

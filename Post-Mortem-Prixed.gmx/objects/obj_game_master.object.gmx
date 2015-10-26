@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-10000000</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -30,9 +30,61 @@ scr_game_var();
 
 game_pause = false;
 console_enabled = false;
+debug_enabled = false;
 
 command_pause = false;
 command = "";
+
+instance_selection = noone;
+
+alarm[11] = room_speed * random(50); // Airdrops
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Create guide
+instance_create(x, y, obj_guide);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Airdrops
+instance_create(min (random(room_width), room_width), 0, obj_cargo);
+alarm[11] = room_speed * irandom(50);
 </string>
           </argument>
         </arguments>
@@ -81,14 +133,28 @@ command_pause = false;
             <kind>1</kind>
             <string>/// Commence command
 
+unknown = false;
+
 if (command != "") {
+
+    // Normalize command text
+    command = string_lower(command);
+
+    var protocol = 0;
+    var order = 0;
+    var type = 0;
+    var amount = string(1);
+    var enabled = string(0);
+
     // Analyze command
-    var protocol = string_char_at(command, 0);
+    protocol = string_char_at(command, 0);
+    
     command = string_delete(command, 1, 1); // remove protocol from command
-    var order = scr_substring(command, 0, " ");
-    var type = scr_substring(command, 1, " ");
-    var amount = scr_substring(command, 2, " ");
-    var enabled = scr_substring(command, 3, " ");
+    
+    order = scr_substring(command, 0, " ");
+    type = scr_substring(command, 1, " ");
+    if (scr_substring(command, 2, " ") != "") amount = scr_substring(command, 2, " ");
+    if (scr_substring(command, 3, " ") != "") enabled = scr_substring(command, 3, " ");
     
     var command_report = "CMD :: ";
     
@@ -98,11 +164,16 @@ if (command != "") {
             case "spawn":
             scr_dev_cmd_spawn(type, amount, enabled);
             break;
+            case "destroy":
+            scr_dev_cmd_destroy(type);
             case "":
+            unknown = true;
             break;
         }
         command_report += "-" + string(amount) + "- INSTANCE -" + string(order) + "- OF TYPE -" + string(type) + "-";
-    } else command_report += "ERROR -unknown command-";
+    } else unknown = true;
+    
+    if (unknown) command_report = "CMD :: ERROR -unknown command-"; 
     
     show_debug_message(command_report);
     
@@ -160,8 +231,66 @@ physics_world_update_speed (room_speed * !game_pause);
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Change gravity depending on screen size
+physics_world_gravity(0, 10 * sign(view_wview[0]));
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// View info on click
+if (debug_enabled) {
+    if (ms_left) {
+        if (instance_selection != noone) {
+            show_debug_message("CMD :: -" + string(object_get_name(instance_selection.object_index)) + "- INSTANCE ID OF -" + string(instance_selection) + "-");
+        }
+    }
+    if (key_attach) {
+        if (instance_selection != noone) {
+            global.player = instance_selection;
+        }
+    }
+    if (key_detach) {
+        global.player = noone;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -185,10 +314,11 @@ game_pause = console_enabled;
 
 if (!command_pause) {
     if (key_any) { command_pause = true; alarm [0] = room_speed/4; }
-    if (key_console) { console_enabled = !console_enabled; }
+    if (key_console) { console_enabled = !console_enabled; keyboard_string = "" }
     if (key_terminate) {} 
     if (key_detach) {}
     if (key_attach) {}
+    if (key_debug) { debug_enabled = !debug_enabled; }
 }
 </string>
           </argument>
@@ -213,7 +343,12 @@ if (!command_pause) {
             <string>/// Locate enabled instance
 var inst = instance_find(obj_instance_parent, instance_number(obj_instance_parent));
 
-if (inst != noone &amp;&amp; inst.enabled) global.player = inst;
+if (!debug_enabled) {
+    if (!instance_exists(global.player) || !global.player.enabled) {
+        if (inst != noone &amp;&amp; inst.enabled) global.player = inst;
+        else global.player = noone;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -238,6 +373,36 @@ if (inst != noone &amp;&amp; inst.enabled) global.player = inst;
             <kind>1</kind>
             <string>/// Draw Development Tools
 if (console_enabled) scr_dev_console();
+show_debug_overlay(debug_enabled);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Get hovered over object
+if (debug_enabled) {
+instance_selection = instance_position(mouse_x, mouse_y, all);
+
+if (instance_selection != noone) draw_sprite_ext(instance_selection.sprite_index, instance_selection.image_index, instance_selection.x, instance_selection.y, instance_selection.image_xscale, instance_selection.image_yscale, instance_selection.image_angle, c_black, 0.5);
+}
+
 </string>
           </argument>
         </arguments>

@@ -79,10 +79,11 @@
 
     // Keyboard
     
-        key_console = keyboard_check(vk_f11);
-        key_terminate = keyboard_check(vk_f10);
-        key_detach = keyboard_check(vk_f1);
-        key_attach = keyboard_check(vk_f2);
+        key_console = keyboard_check(vk_lshift) && keyboard_check(ord("1"));
+        key_terminate = keyboard_check(vk_lshift) && keyboard_check(ord("0"));
+        key_detach = keyboard_check(vk_lshift) && keyboard_check(ord("3"));
+        key_attach = keyboard_check(vk_lshift) && keyboard_check(ord("2"));
+        key_debug = keyboard_check(vk_lshift) && keyboard_check(ord("4"));
         key_any = keyboard_check(vk_anykey);
 
 // Control
@@ -96,3 +97,6 @@
         
         key_pause = keyboard_check(ord("P")) || 
         gamepad_button_check(user, gp_select);
+        
+        key_zoomin = keyboard_check(ord("O"));
+        key_zoomout = keyboard_check(ord("P"));

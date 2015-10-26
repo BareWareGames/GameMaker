@@ -27,6 +27,33 @@
             <kind>1</kind>
             <string>/// Initialize view
 pan = -1;
+
+resX = view_wview[0];
+resY = view_hview[0];
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Update controls
+if (global.player == noone) scr_key_inputs(-1);
 </string>
           </argument>
         </arguments>
@@ -53,8 +80,70 @@ pan = -1;
 if(instance_exists(global.player)){
     x += (global.player.x - x) * 0.01;
     y += (global.player.y - y) * 0.01;
-} 
+}
   
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Update movement
+var xaxis = key_right - key_left;
+var yaxis = key_down - key_up;
+
+hspd = 2 * xaxis;
+vspd = 2 * yaxis;
+
+x = min(max(x + hspd, 0), room_width);
+y = min(max(y + vspd, 0), room_height);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Update view size
+
+if (global.player == noone) {
+    var val = key_zoomout - key_zoomin;
+    
+    view_wview[0] += 2 * val;
+    view_hview[0] += 2 * 0.817 * val;
+    view_hborder[0] = view_wview[0] / 2;
+    view_vborder[0] = view_hview[0] / 2;
+    
+    //if (x != view_wview[0] / 2) x = view_wview[0]/2;
+    //if (y != view_hview[0] / 2) y = view_hview[0]/2;
+}
 </string>
           </argument>
         </arguments>

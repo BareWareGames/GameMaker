@@ -58,6 +58,32 @@ image_yscale /= 6;
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Check if creator still exists
+if (creator != noone &amp;&amp; !instance_exists(creator) || creator == noone) {
+    instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -77,36 +103,39 @@ image_yscale /= 6;
             <kind>1</kind>
             <string>/// Choose which header to show
 
-// Low Health
-if (creator.hp &lt; creator.hp / 3) {
-    header_sprite = spr_marker_lowhealth;
-} else
-// Stealth
-if (creator.stealth) {
-    header_sprite = spr_marker_stealth;
-} else
-// Chat
-if (creator.chat) {
-    header_sprite = spr_marker_chat;
-} else
-// AFK
-if (creator.afk) {
-    header_sprite = spr_marker_afk;
-} else
-// Shop
-if (creator.shop) {
-    header_sprite = spr_marker_shop;
-} else
-// Trade
-if (creator.trade) {
-    header_sprite = spr_marker_trade;
-} else
-// Targeted
-if (creator.targeted) {
-    header_sprite = spr_marker_targeted;
-} else
-// Default
-{ header_sprite = noone; }
+if (creator != noone &amp;&amp; instance_exists(creator)) {
+    
+    // Low Health
+    if (creator.hp &lt; creator.hp / 3) {
+        header_sprite = spr_marker_lowhealth;
+    } else
+    // Stealth
+    if (creator.stealth) {
+        header_sprite = spr_marker_stealth;
+    } else
+    // Chat
+    if (creator.chat) {
+        header_sprite = spr_marker_chat;
+    } else
+    // AFK
+    if (creator.afk) {
+        header_sprite = spr_marker_afk;
+    } else
+    // Shop
+    if (creator.shop) {
+        header_sprite = spr_marker_shop;
+    } else
+    // Trade
+    if (creator.trade) {
+        header_sprite = spr_marker_trade;
+    } else
+    // Targeted
+    if (creator.targeted) {
+        header_sprite = spr_marker_targeted;
+    } else
+    // Default
+    { header_sprite = noone; }
+}
 </string>
           </argument>
         </arguments>
@@ -130,7 +159,8 @@ if (creator.targeted) {
           <argument>
             <kind>1</kind>
             <string>/// Draw header
-if (header_sprite != noone) draw_sprite_ext(header_sprite, -1, creator.x, creator.y - creator.sprite_height/2, image_xscale, image_yscale, image_angle, -1, 1);
+if (creator != noone &amp;&amp; instance_exists(creator))    
+    if (header_sprite != noone) draw_sprite_ext(header_sprite, -1, creator.x, creator.y - creator.sprite_height/2, image_xscale, image_yscale, image_angle, -1, 1);
 </string>
           </argument>
         </arguments>

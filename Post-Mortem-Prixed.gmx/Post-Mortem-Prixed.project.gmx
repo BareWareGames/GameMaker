@@ -34,6 +34,7 @@
     </sprites>
     <sprite>sprites\spr_grass</sprite>
     <sprite>sprites\spr_dirt</sprite>
+    <sprite>sprites\spr_selection_box</sprite>
     <sprite>sprites\spr_explosion</sprite>
     <sprite>sprites\spr_collider</sprite>
     <sprite>sprites\spr_mailbox</sprite>
@@ -42,6 +43,9 @@
     <sprite>sprites\spr_damage</sprite>
     <sprite>sprites\spr_branches</sprite>
     <sprite>sprites\spr_dog</sprite>
+    <sprite>sprites\spr_guide</sprite>
+    <sprite>sprites\spr_bush0</sprite>
+    <sprite>sprites\spr_cargo</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -71,6 +75,8 @@
       <scripts name="Development Tools">
         <script>scripts\scr_dev_console.gml</script>
         <script>scripts\scr_dev_cmd_spawn.gml</script>
+        <script>scripts\scr_dev_cmd_give.gml</script>
+        <script>scripts\scr_dev_cmd_destroy.gml</script>
       </scripts>
     </scripts>
   </scripts>
@@ -82,16 +88,19 @@
       <object>objects\obj_game_master</object>
       <object>objects\obj_view_master</object>
       <object>objects\obj_mouse_master</object>
+      <object>objects\obj_menu_master</object>
+      <object>objects\obj_levelviewer_master</object>
     </objects>
     <objects name="Parents">
       <object>objects\obj_instance_parent</object>
+      <object>objects\obj_tile_parent</object>
     </objects>
     <objects name="Instances">
       <object>objects\obj_human</object>
-      <object>objects\obj_tree_column</object>
       <object>objects\obj_package</object>
-      <object>objects\obj_branch</object>
+      <object>objects\obj_cargo</object>
       <object>objects\obj_mailbox</object>
+      <object>objects\obj_guide</object>
     </objects>
     <objects name="Helpers">
       <object>objects\obj_damage</object>
@@ -101,11 +110,16 @@
     </objects>
     <objects name="Tiles">
       <object>objects\obj_grass_top</object>
+      <object>objects\obj_branch</object>
       <object>objects\obj_grass</object>
       <object>objects\obj_dirt</object>
+      <object>objects\obj_bush</object>
+      <object>objects\obj_tree_column</object>
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_menu</room>
+    <room>rooms\rm_levelviewer</room>
     <room>rooms\rm_testing</room>
   </rooms>
   <constants number="6">

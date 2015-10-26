@@ -57,6 +57,8 @@ maxHp = 2;
 
 bound = 10;
 
+animated = false;
+
 image_xscale /= 2;
 image_yscale /= 2;
 </string>
@@ -210,7 +212,7 @@ draw_self();
 var color = make_color_rgb (62, 39, 35);
 draw_set_color (color);
 
-if (target != noone)
+if (target != noone &amp;&amp; instance_exists(target))
     draw_line_width (x, y, target.x, target.y - target.sprite_height/4, 0.5);
 </string>
           </argument>

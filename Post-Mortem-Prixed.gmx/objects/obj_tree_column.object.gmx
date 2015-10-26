@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>/// Intialize tree column
-children = 5;
+children = 1;
 
 alarm [0] = 1;
 </string>
@@ -106,6 +106,10 @@ if (children &gt; 0) {
     segment.children = children - 1;
     segment.image_xscale = image_xscale;
     segment.depth = depth;
+} else {
+    var foil = instance_create(x - (x % 16), y - 16 - (y % 16), obj_bush);
+    foil.children = 2 * random(2);
+    foil.depth = -10000;
 }
 </string>
           </argument>
