@@ -88,8 +88,11 @@ if (instance_exists(creator) &amp;&amp; other.id != creator &amp;&amp; other.id 
         
         scr_caption_create (x, y - sprite_height/2, dmg, c_red);
     
-        physics_apply_impulse(x, y, phy_speed_x + (dmg * -sign (face - 1)), phy_speed_y - 1);
+        physics_apply_impulse(x, y, phy_speed_x + (dmg * -sign (face - 1)), 1);
     }
+    
+    // Remove damage marker
+    instance_destroy();
 }
 </string>
           </argument>

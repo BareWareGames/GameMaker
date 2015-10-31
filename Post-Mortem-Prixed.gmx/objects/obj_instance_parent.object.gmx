@@ -35,7 +35,7 @@ density = 0.5;
 enabled = false;
 
 spd = 2; // horizontal speed
-jump_spd = 7; // vertical speed
+jump_spd = 7 * 2.4; // vertical speed
 
 anchor = y;
 
@@ -44,6 +44,7 @@ package_joint = -1;
 
 sprite = spr_human;
 costume = -1;
+skin_color = make_color_rgb (212, 159, 133);
 
 target = noone;
 team = "neutral";
@@ -59,6 +60,8 @@ dir = 0;
 xlen = 0;
 ylen = 0;
 face = RIGHT;
+
+body_bag = ds_list_create();
 
 image_speed = 0.2;
 
@@ -187,7 +190,7 @@ header.creator = id;
             <string>/// Fixed rotation
 
 // -- Do not touch -- //
-phy_fixed_rotation = true;
+phy_fixed_rotation = fix_rotation;
 </string>
           </argument>
         </arguments>
@@ -211,10 +214,10 @@ phy_fixed_rotation = true;
             <string>/// Create fixture
 fix_temp = physics_fixture_create ();
 physics_fixture_set_polygon_shape (fix_temp);
-physics_fixture_add_point(fix_temp, -3, -4);
-physics_fixture_add_point(fix_temp, 3, -4);
-physics_fixture_add_point(fix_temp, 3, 0);
-physics_fixture_add_point(fix_temp, -3, 0);
+physics_fixture_add_point(fix_temp, -spr_width, -spr_height);
+physics_fixture_add_point(fix_temp, spr_width, -spr_height);
+physics_fixture_add_point(fix_temp, spr_width, 0);
+physics_fixture_add_point(fix_temp, -spr_width, 0);
 physics_fixture_set_density(fix_temp, density);
 fix_inst = physics_fixture_bind(fix_temp, id);
 physics_fixture_delete(fix_temp);
@@ -675,7 +678,18 @@ if (key_modify) {
             <kind>1</kind>
             <string>/// Death handler
 if (hp &lt;= 0) alive = false;
-if (!alive) enabled = false;
+if (!alive) { 
+    enabled = false;
+    for (var i = 0; i &lt; ds_list_size(body_bag); i++) {
+        var part = instance_create(x, y, ds_list_find_value(body_bag, i));
+        part.depth = depth;
+        part.color = skin_color;
+        part.hp = -1;
+        with part {physics_apply_impulse(x, y, random(0.2) * (irandom(2) - 1), -random(0.2)); }
+    }
+    
+    instance_destroy();
+}
 </string>
           </argument>
         </arguments>
@@ -705,6 +719,30 @@ if (!alive) enabled = false;
         </arguments>
       </action>
     </event>
+    <event eventtype="7" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Instance remove
+instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -723,7 +761,8 @@ if (!alive) enabled = false;
           <argument>
             <kind>1</kind>
             <string>/// Draw self
-draw_sprite_ext (sprite, -1, x, y, image_xscale * xscale, image_yscale * yscale, 0, make_color_rgb (212, 159, 133), 1);
+if (sprite != noone) draw_sprite_ext (sprite, -1, x, y, image_xscale * xscale, image_yscale * yscale, 0, skin_color, 1);
+else instance_destroy();
 </string>
           </argument>
         </arguments>

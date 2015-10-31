@@ -28,13 +28,20 @@
             <string>/// Intialize human
 user = 0;
 
+spr_height = 4;
+spr_width = 3;
+
+fix_rotation = true;
+
 event_inherited();
 
 // Information=
-hp = 10;
+hp = 25;
 maxHp = hp;
 
 costume = spr_human_costume_mailman;
+
+ds_list_add(body_bag, obj_human_arm, obj_human_arm, obj_human_foot, obj_human_foot, obj_human_head, obj_human_torso);
 </string>
           </argument>
         </arguments>

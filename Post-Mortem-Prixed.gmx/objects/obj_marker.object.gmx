@@ -105,6 +105,10 @@ if (creator != noone &amp;&amp; !instance_exists(creator) || creator == noone) {
 
 if (creator != noone &amp;&amp; instance_exists(creator)) {
     
+    // Dead
+    if (creator.hp &lt;= 0) {
+        header_sprite = noone;
+    } else
     // Low Health
     if (creator.hp &lt; creator.hp / 3) {
         header_sprite = spr_marker_lowhealth;

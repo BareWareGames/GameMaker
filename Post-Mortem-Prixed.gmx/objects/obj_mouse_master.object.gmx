@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -49,9 +49,8 @@ fix_mouse = physics_fixture_create ();
             <kind>1</kind>
             <string>/// Intialize mouse
 user = -1;
-image_speed = 0.2;
-depth = -100000000;
 window_set_cursor (cr_none);
+cursor_sprite = spr_mouse_icon;
 </string>
           </argument>
         </arguments>
@@ -99,8 +98,7 @@ scr_key_inputs (user);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/// Draw cursor
-draw_sprite_ext(spr_mouse_icon, -1, mouse_x, mouse_y, image_xscale/6, image_xscale/6, 0, -1, 1);
+            <string>/// None
 </string>
           </argument>
         </arguments>
@@ -120,6 +118,6 @@ draw_sprite_ext(spr_mouse_icon, -1, mouse_x, mouse_y, image_xscale/6, image_xsca
   <PhysicsObjectKinematic>-1</PhysicsObjectKinematic>
   <PhysicsShapePoints>
     <point>2,2</point>
-    <point>2,0</point>
+    <point>8,0</point>
   </PhysicsShapePoints>
 </object>

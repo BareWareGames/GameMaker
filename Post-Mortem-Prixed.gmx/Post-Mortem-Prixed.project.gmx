@@ -16,6 +16,12 @@
       <sprite>sprites\spr_human_costume_theif</sprite>
       <sprite>sprites\spr_human_costume_mailman</sprite>
       <sprite>sprites\spr_human_weapon</sprite>
+      <sprites name="Human Parts">
+        <sprite>sprites\spr_human_arm</sprite>
+        <sprite>sprites\spr_human_torso</sprite>
+        <sprite>sprites\spr_human_head</sprite>
+        <sprite>sprites\spr_human_foot</sprite>
+      </sprites>
     </sprites>
     <sprite>sprites\spr_package</sprite>
     <sprite>sprites\spr_grass_top</sprite>
@@ -46,6 +52,11 @@
     <sprite>sprites\spr_guide</sprite>
     <sprite>sprites\spr_bush0</sprite>
     <sprite>sprites\spr_cargo</sprite>
+    <sprite>sprites\spr_blood</sprite>
+    <sprite>sprites\spr_destinations</sprite>
+    <sprite>sprites\spr_pin_line</sprite>
+    <sprite>sprites\spr_pin</sprite>
+    <sprite>sprites\spr_worldmap</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -71,12 +82,16 @@
       </scripts>
       <scripts name="Intelligence">
         <script>scripts\scr_ai_human.gml</script>
+        <script>scripts\scr_planner.gml</script>
       </scripts>
       <scripts name="Development Tools">
         <script>scripts\scr_dev_console.gml</script>
         <script>scripts\scr_dev_cmd_spawn.gml</script>
         <script>scripts\scr_dev_cmd_give.gml</script>
+        <script>scripts\scr_dev_cmd_deploy.gml</script>
         <script>scripts\scr_dev_cmd_destroy.gml</script>
+        <script>scripts\scr_dev_cmd_whatis.gml</script>
+        <script>scripts\scr_dev_cmd_lookat.gml</script>
       </scripts>
     </scripts>
   </scripts>
@@ -94,13 +109,22 @@
     <objects name="Parents">
       <object>objects\obj_instance_parent</object>
       <object>objects\obj_tile_parent</object>
+      <object>objects\obj_simple_instance_parent</object>
     </objects>
     <objects name="Instances">
-      <object>objects\obj_human</object>
       <object>objects\obj_package</object>
       <object>objects\obj_cargo</object>
       <object>objects\obj_mailbox</object>
       <object>objects\obj_guide</object>
+      <objects name="Human">
+        <object>objects\obj_human</object>
+        <objects name="Body Bag">
+          <object>objects\obj_human_head</object>
+          <object>objects\obj_human_torso</object>
+          <object>objects\obj_human_arm</object>
+          <object>objects\obj_human_foot</object>
+        </objects>
+      </objects>
     </objects>
     <objects name="Helpers">
       <object>objects\obj_damage</object>
@@ -115,6 +139,13 @@
       <object>objects\obj_dirt</object>
       <object>objects\obj_bush</object>
       <object>objects\obj_tree_column</object>
+    </objects>
+    <objects name="FX">
+      <object>objects\obj_blood</object>
+    </objects>
+    <objects name="Map">
+      <object>objects\obj_worldmap</object>
+      <object>objects\obj_basic_pin</object>
     </objects>
   </objects>
   <rooms name="rooms">

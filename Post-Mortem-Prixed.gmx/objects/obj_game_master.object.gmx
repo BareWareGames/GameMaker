@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>-10000000</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -36,6 +36,7 @@ command_pause = false;
 command = "";
 
 instance_selection = noone;
+debug_instance_grab = noone;
 
 alarm[11] = room_speed * random(50); // Airdrops
 </string>
@@ -166,6 +167,28 @@ if (command != "") {
             break;
             case "destroy":
             scr_dev_cmd_destroy(type);
+            break;
+            case "give":
+            scr_dev_cmd_give(type, amount);
+            break;
+            case "deploy":
+            scr_dev_cmd_destroy(type);
+            break;
+            case "whatis":
+            type = scr_dev_cmd_whatis(type);
+            break;
+            case "lookat":
+            type = scr_dev_cmd_lookat(type);
+            break;
+            case "start":
+            repeat(100) {
+                var inst = instance_create (irandom(room_width), 50, obj_human);
+                inst.team = choose("foe", "ally");
+            }
+            repeat(10) {
+                instance_create (irandom(room_width), 50, obj_package);
+            }
+            break;
             case "":
             unknown = true;
             break;
@@ -253,8 +276,6 @@ physics_world_gravity(0, 10 * sign(view_wview[0]));
           </argument>
         </arguments>
       </action>
-    </event>
-    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -278,6 +299,11 @@ if (debug_enabled) {
             show_debug_message("CMD :: -" + string(object_get_name(instance_selection.object_index)) + "- INSTANCE ID OF -" + string(instance_selection) + "-");
         }
     }
+    if (ms_right) {
+        if (instance_selection != noone &amp;&amp; debug_instance_grab == noone) {
+            debug_instance_grab = instance_selection;
+        } else debug_instance_grab = noone;
+    }
     if (key_attach) {
         if (instance_selection != noone) {
             global.player = instance_selection;
@@ -291,6 +317,8 @@ if (debug_enabled) {
           </argument>
         </arguments>
       </action>
+    </event>
+    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -348,6 +376,33 @@ if (!debug_enabled) {
         if (inst != noone &amp;&amp; inst.enabled) global.player = inst;
         else global.player = noone;
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/// Transport grabbed debug instance
+if (debug_instance_grab != noone) {
+    debug_instance_grab.phy_position_x = mouse_x;
+    debug_instance_grab.phy_position_y = mouse_y;
+    debug_instance_grab.phy_speed_x = 0;
+    debug_instance_grab.phy_speed_y = 0;
 }
 </string>
           </argument>

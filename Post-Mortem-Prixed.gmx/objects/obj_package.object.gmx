@@ -50,6 +50,11 @@ fix_package = physics_fixture_create ();
             <string>/// Intialize package and inheritance
 user = -1;
 
+spr_height = 4;
+spr_width = 5;
+
+fix_rotation = false;
+
 event_inherited();
 
 hp = 2;
